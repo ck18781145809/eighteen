@@ -1,0 +1,49 @@
+{
+	"extends": "eslint:recommended",
+	"env": {
+		"browser": true
+	},
+	"rules": {
+		"no-console": [ 2, { "allow": [ "warn", "error" ] } ],
+
+
+		/*
+		 * 代码格式
+		 */
+		"array-bracket-newline": [ 1, { "multiline": true } ], //  数组方括号前后不用换行
+		"array-bracket-spacing": [ 1, "always" ], //  数组方括号前后留一个空格
+		"array-element-newline": [ 1, { "multiline": true } ], //  数组元素排列不用在同一行
+		"block-spacing": [ 1, "always" ], //  强制在代码块中开括号前和闭括号后有空格
+		"brace-style": [ 1, "1tbs", { "allowSingleLine": true } ], //  if while function 后面的 { 必须与if在同一行。
+		"camelcase": [ 1, { "properties": "always" } ], //  全部使用驼峰命名
+		"comma-dangle": [ 1, "never" ], //  不使用拖尾逗号
+		"comma-spacing": [ 1, { "before": false, "after": true } ], //  逗号前不空格，后空一格
+		"comma-style": [ 1, "last" ], //  逗号放在元素后面切在同一行
+		"computed-property-spacing": [ 1, "always" ], //  强制在计算属性中使用空格
+		"eol-last": [ 1, "always" ], //  文件末尾保留一行空行
+		"func-call-spacing": [ 1, "never" ], //  禁止在函数标识符和其调用之间有空格
+		"func-names": [ 1, "as-needed" ], //  如果在 ES6 环境中，函数名无法自动被赋值，要求函数表达式有一个名字
+		"function-paren-newline": [ 1, "never" ], //  禁止在所有的函数括号内换行
+		"key-spacing": [ 1, { "beforeColon": false, "afterColon": true } ], //  对象字面量的键和值之间的逗号前不空格，后空格
+		"lines-around-comment": [ 1, { "beforeBlockComment": true, "afterBlockComment": false } ], //  块级注释前空一行，后不空行
+		"lines-between-class-members": [ 1, "always" ], //  要求在类成员之间出现空行
+		"multiline-comment-style": [ 1, "starred-block" ], //  多行注释使用特定风格
+		"new-cap": [ 1, { "newIsCap": true, "capIsNew": true } ], //  构造函数必有 new 关键字，首字母必须大写
+		"new-parens": [ 1 ], //  无参构造函数时带括号
+		"newline-per-chained-call": [ 1 ], //  方法链中每个调用都有一个换行符
+		"no-plusplus": [ 2, { "allowForLoopAfterthoughts": true } ], //  禁用 ++ 和 -- ，用 += 1 和 -= 1 代替
+		"no-whitespace-before-property": 1, //  禁止属性前有空白
+		"object-curly-spacing": [ 1, "always" ], //  强制在花括号中使用一致的空格
+		"one-var-declaration-per-line": [ 1, "initializations" ], //  强制每个变量初始化语句(有 = )换行
+		"padded-blocks": [ 1, "always" ], //  要求块语句和类的开始或末尾有空行
+		"quote-props": [ 1, "needed" ], //  当没有严格要求时，禁止对象字面量属性名称使用引号
+		"quotes": [ 1, "single" ], //  尽可能使用单引号
+		"semi": [ 1, "always" ], //  语句末尾必加分号
+		"space-before-blocks": [ 1, "always" ], //  要求语句块 { } 之前的空格
+		"space-before-function-paren": [ 1, "never" ], //  禁止函数圆括号之前有一个空格
+		"space-in-parens": [ 1, "always" ], //  强制圆括号内的空格
+		"space-infix-ops": 1, //  中缀操作符( + - * / 等 )周围有空格
+		"spaced-comment": [ 1, "always" ], //  要求在注释前有空白
+		"switch-colon-spacing": [ 1, { "after": true, "before": false } ] //  冒号后面有一个空格
+	}
+}
