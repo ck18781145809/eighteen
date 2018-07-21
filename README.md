@@ -11,5 +11,5 @@
     - base
     - components
     - pages
-  - js
-  - images
+- js
+- images
