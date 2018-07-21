@@ -26,6 +26,11 @@ gulp.task( 'html', function() {
 gulp.task( 'css', [ 'html' ], function() {
 	return gulp .src( [ './src/css/settings/*.css', './src/css/base/*.css', './src/css/components/*.css', './src/css/pages/*.css' ] )
 				.pipe( concat( 'app.css' ) )
+				.pipe( base64( {
+					extensions: [ 'png', 'jpg' ],
+					maxImageSize: 20*1024
+				} ) )
+				.pipe( replace( /..\/..\//g, '../' ) ) //  替换图片路径
 				.pipe( autoprefixer( {
 					browsers: ['last 2 versions', 'Android >= 4.0', 'ie 9', 'ie 10'],
 					cascade: false, //是否美化属性值
@@ -35,7 +40,6 @@ gulp.task( 'css', [ 'html' ], function() {
 				.pipe( md5( 10, './dist/*.html', {
 					mappingFile: 'manifest.json' //  将对应关系写到mainfest.json中
 				} ) )
-				.pipe( replace( /..\/..\//g, '../' ) ) //  替换图片路径
 				.pipe( gulp.dest( "./dist/css/" ) );
 } )
 
