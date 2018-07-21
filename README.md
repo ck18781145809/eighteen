@@ -1,7 +1,10 @@
-# eighteen
+整理的一些小东西，找起来方便
+
+[TOC]
+
 ## gulpfile.js
 
-多页面gulpfile.js文件目录
+多页面gulpfile.js文件目录，适用于展示网站，不适用于js模块复杂的场景
 
 - gulpfile.js
 - src
