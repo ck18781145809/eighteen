@@ -1,0 +1,133 @@
+/* 浮动 */
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* 文字 */
+.ff {
+    font-family: "微软雅黑", Tahoma, Helvetica, Arial, "宋体", sans-serif;
+}
+
+.tc {
+    text-align: center;
+}
+
+.tr {
+    text-align: right;
+}
+
+.tl {
+    text-align: left;
+}
+
+.vm {
+    vertical-align: middle;
+}
+
+.vtb {
+    vertical-align: text-bottom;
+}
+
+.vt {
+    vertical-align: top;
+}
+
+.vimg {
+    margin-bottom: -3px;
+}
+
+.wsn {
+    white-space: nowrap;
+}
+
+.toe {
+    text-overflow: ellipsis;
+}
+
+/* 边距 */
+
+@each $n in 5, 10, 20 {
+    @each $k, $v1, $v2 in (p, padding), (pt, padding-top), (pr, padding-right), (pb, padding-bottom), (pl, padding-left),
+        (m, margin), (mt, margin-top), (mr, margin-right), (mb, margin-bottom), (ml, margin-left),
+        (ph, padding-top, padding-bottom), (pv, padding-right, padding-left), (mh, margin-top, margin-bottom),
+        (mv, margin-right, margin-left)
+    {
+        @if $v2 {
+            .#{$k}-#{$n} {
+                #{$v1}: 1px * $n;
+                #{$v2}: 1px * $n;
+            }
+        } @else {
+            .#{$k}-#{$n} {
+                #{$v1}: 1px * $n;
+            }
+        }
+    }
+}
+
+/* 定位 */
+.rel {
+    position: relative;
+}
+
+.abs {
+    position: absolute;
+}
+
+/* display */
+.dn {
+    display: none;
+}
+
+.db {
+    display: block;
+}
+
+.di {
+    display: inline;
+}
+
+.dib {
+    display: inline-block;
+}
+
+/* 显示 */
+.ofh {
+    overflow: hidden;
+}
+
+.ofs {
+    overflow: scroll;
+}
+
+.ofs-x {
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.ofs-y {
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.vh {
+    visibility: hidden;
+}
+
+.vv {
+    visibility: visible;
+}

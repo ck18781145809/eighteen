@@ -1,0 +1,34 @@
+/* ------------------- *\
+   FLEX
+\* ------------------- */
+
+.flex {
+    display: flex;
+}
+
+@mixin flex {
+    display: flex;
+}
+
+.flex-full {
+    flex: 1;
+}
+
+.flex-col {
+    @include flex;
+    flex-direction: column;
+}
+
+$s: flex-start;
+$e: flex-end;
+$c: center;
+$sa: space-around;
+$sb: space-between;
+
+@each $n, $j, $a in (f-s-c, $s, $c), (f-b-c, $sb, $c), (f-c, $c, $c), (f-e-c, $e, $c), (f-a-c, $sa, $c), (f-c-s, $c, $s) {
+    .#{$n} {
+        @include flex;
+        justify-content: $j;
+        align-items: $a;
+    }
+}
