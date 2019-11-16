@@ -1,79 +1,89 @@
-var gulp         = require( 'gulp' ),
-	md5          = require( 'gulp-md5-plus' ), //  文件名加md5
-	del          = require( 'del' ), //  删除文件
-	autoprefixer = require('gulp-autoprefixer'), //  css自动补齐兼容前缀
-	cssmin       = require( 'gulp-clean-css' ), //  压缩css
-	uglify       = require( "gulp-uglify" ),
-	minifyHtml   = require( "gulp-minify-html" ), //  压缩html
-	concat       = require( "gulp-concat" ), //  合并文件
-	replace      = require( 'gulp-replace' ), //  字符串替换
-	babel        = require( "gulp-babel" ), //  es6转译
-	livereload   = require('gulp-livereload'); //  chrome实时刷新
-	base64       = require('gulp-base64'); //  img转base64
+/*
+ * Created by Chen Kuo on 2019\11\16
+ * 使用 gulp-cli@2.x.x & gulp@4.0.0
+ * 新增同步任务 gulp.series 异步任务 gulp.parallel
+ * 任务变为 function 控制
+ * */
+'use strict';
 
-//  每次执行先删除旧的dist 然后再生成一个新的dist
-gulp.task( 'default', [ 'clean', 'watch' ], function() {
-	gulp.start( 'img' );
-} );
+const gulp = require('gulp');
+const del = require('del'); //  删除文件
+const concat = require('gulp-concat'); //  合并文件
+const sass = require('gulp-sass'); //  处理sass
+const autoPreFixer = require('gulp-autoprefixer'); //  自动补全css
+const liveReload = require('gulp-livereload'); //  实时刷新
 
-//  开发环境的index输出到发布包中
-gulp.task( 'html', function() {
-	return gulp .src( './src/*.html' )
-		.pipe( minifyHtml() )
-		.pipe( gulp.dest( './dist/' ) )
-} );
+sass.compiler = require('node-sass'); //  sass配置
 
-//	对css文件加md5控制版本
-gulp.task( 'css', [ 'html' ], function() {
-	return gulp .src( [ './src/css/settings/*.css', './src/css/base/*.css', './src/css/components/*.css', './src/css/pages/*.css' ] )
-				.pipe( concat( 'app.css' ) )
-				.pipe( base64( {
-					extensions: [ 'png', 'jpg' ],
-					maxImageSize: 20*1024
-				} ) )
-				.pipe( replace( /..\/..\//g, '../' ) ) //  替换图片路径
-				.pipe( autoprefixer( {
-					browsers: ['last 2 versions', 'Android >= 4.0', 'ie 9', 'ie 10'],
-					cascade: false, //是否美化属性值
-					remove: true //是否去掉不必要的前缀
-				} ) )
-				.pipe( cssmin() ) //  压缩css
-				.pipe( md5( 10, './dist/*.html', {
-					mappingFile: 'manifest.json' //  将对应关系写到mainfest.json中
-				} ) )
-				.pipe( gulp.dest( "./dist/css/" ) );
-} );
 
-//	对js文件加md5控制版本
-gulp.task( 'js', [ 'css' ], function() {
-	return gulp .src( "./src/js/*.js" )
-				.pipe( babel() )
-				.pipe( md5( 10, './dist/*.html', {
-					mappingFile: 'manifest.json' //  将对应关系写到mainfest.json中
-				} ) )
-				.pipe( gulp.dest( "./dist/js/" ) );
-} );
+function taskClean() {
+	return del(
+		[
+			'./manifest.json',
+			'./dist/css',
+			'./dist/pages',
+			'./dist/images'
+		],
+		{
+			force: true
+		}
+	)
+}
 
-//  输出字体文件到dist
-gulp.task( 'font', [ 'js' ], function() {
-	return gulp .src( "./src/font/**" )
-				.pipe( gulp.dest( "./dist/font" ) );
-} );
+function taskCss() {
+	return gulp
+		.src(
+			[
+				'./scss/**',
+				'!./scss/pages/**'
+			]
+		)
+		.pipe(concat('app.css'))
+		.pipe(gulp.src('./scss/pages/**'))
+		.pipe(sass().on('error', sass.logError))
+		.pipe(autoPreFixer({
+			cascade: true, //  是否美化属性值
+			remove: true, //  是否去掉不必要的前缀
+		}))
+		.pipe(gulp.dest('./dist/css/'))
+}
 
-//	输出图片到dist
-gulp.task( 'img', [ 'font' ], function() {
-	return gulp .src( "./src/images/**" )
-			    .pipe( gulp.dest( "./dist/images/" ) )
-				.pipe( livereload() )
-} );
+function taskHtml() {
+	return gulp
+		.src(
+			[
+				'./pages/**'
+			]
+		)
+		.pipe(gulp.dest('./dist/pages/'))
+}
 
-//  删除发布包和mainfest.json
-gulp.task( 'clean', function() {
-	return del( [ './dist', './manifest.json' ] );
-} );
+function taskImage() {
+	return gulp
+		.src(
+			[
+				'./images/**'
+			]
+		)
+		.pipe(gulp.dest('./dist/images/'))
+}
 
-gulp.task('watch', function() {
-	livereload.listen(); //要在这里调用listen()方法
-});
+function taskLiberty() {
+	return gulp
+		.src(
+			[
+				'./liberties/**'
+			]
+		)
+		.pipe(gulp.dest('./dist/liberties/'))
+}
 
-gulp.watch( './src/**', [ 'default' ] );
+const TASK_HTML = gulp.series(taskClean, taskCss, taskHtml, taskImage);
+
+function taskWatch() {
+	liveReload.listen(); //  监听livereload服务
+	gulp.watch(['./images/**', './scss/**', './pages/**'], gulp.series(TASK_HTML)) //  监听gulp文件实时打包
+}
+
+
+exports.default = gulp.series(TASK_HTML, liberty, watch);
