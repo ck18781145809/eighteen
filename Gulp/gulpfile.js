@@ -86,4 +86,4 @@ function taskWatch() {
 }
 
 
-exports.default = gulp.series(TASK_HTML, liberty, watch);
+exports.default = gulp.series(TASK_HTML, taskLiberty, taskWatch);
